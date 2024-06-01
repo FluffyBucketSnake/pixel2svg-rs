@@ -23,6 +23,9 @@ struct Args {
     /// If given, translucent pixels will be included
     #[arg(long)]
     allow_opacity: bool,
+    /// By default, the output filepath will be the input filepath replaced with a "svg" extension
+    #[arg(short = 'O', long = "output")]
+    output_filepath: Option<PathBuf>,
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
@@ -33,11 +36,12 @@ fn main() -> Result<(), Box<dyn Error>> {
         strip_namespaces,
         strip_extra_attrs,
         allow_opacity,
+        output_filepath,
     } = Args::parse();
     let overlap = if overlap { 1 } else { 0 };
     let rect_size = to_px(square_size + overlap);
 
-    let output_filepath = image_filepath.with_extension("svg");
+    let output_filepath = output_filepath.unwrap_or_else(|| image_filepath.with_extension("svg"));
 
     let image_file = image::open(image_filepath)?;
     let data = image_file.to_rgba8();
