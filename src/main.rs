@@ -8,7 +8,7 @@ use svg::{node::element::Rectangle, Document};
 #[command(version, about, long_about = None)]
 struct Args {
     image_filepath: PathBuf,
-    /// Width and heigt of vector squares in pixels
+    /// Width and height of vector squares in pixels
     #[arg(long = "squaresize", default_value_t = 40)]
     square_size: u32,
     /// If given, overlap vector squares by 1px
