@@ -4,6 +4,9 @@ authors = ["FluffyBucketSnake"]
 version = "1.0.1"
 edition = "2021"
 license = "GPL-3.0"
+repository = "https://github.com/FluffyBucketSnake/pixel2svg-rs/"
+homepage = "https://github.com/FluffyBucketSnake/pixel2svg-rs/"
+keywords = ["cli", "graphics", "svg", "pixel", "pixelart"]
 description = "Based on the original pixel2svg, but rewritten in Rust. Converts pixel art to SVG - pixel by pixel."
 
 [profile.release]
