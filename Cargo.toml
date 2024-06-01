@@ -1,7 +1,7 @@
 [package]
 name = "pixel2svg"
 authors = ["FluffyBucketSnake"]
-version = "1.0.1"
+version = "1.0.2"
 edition = "2021"
 license = "GPL-3.0"
 repository = "https://github.com/FluffyBucketSnake/pixel2svg-rs/"
