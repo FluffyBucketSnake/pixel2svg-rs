@@ -1,7 +1,7 @@
 [package]
-name = "pixel2svg-riir"
+name = "pixel2svg"
 authors = ["FluffyBucketSnake"]
-version = "0.1.0"
+version = "1.0.0"
 edition = "2021"
 description = "Based on the original pixel2svg, but rewritten in Rust. Converts pixel art to SVG - pixel by pixel."
 
