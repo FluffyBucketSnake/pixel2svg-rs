@@ -9,7 +9,20 @@ Some extra features were added compared to the original:
 - Stripping unrecommended attributes (according to [MDN](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/svg)) used in the original script;
 - Stripping unused XML namespaces (e.g. `xmlns:ev` & `xmlns:xlink`);
 - Manually configurable output path;
-- Translucent pixels;
+- Translucent pixels.
+
+## Dependencies
+
+- `clap` (& `clap-derive`);
+- `image`;
+- `svg`.
+
+## Installation
+
+```bash
+cargo install svg2pix
+
+```
 
 ## Usage
 
