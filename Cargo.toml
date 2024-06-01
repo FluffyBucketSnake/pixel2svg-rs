@@ -5,7 +5,12 @@ version = "1.0.0"
 edition = "2021"
 description = "Based on the original pixel2svg, but rewritten in Rust. Converts pixel art to SVG - pixel by pixel."
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[profile.release]
+strip = true
+opt-level = "s"
+lto = true
+codegen-units = 1
+panic = "abort"
 
 [dependencies]
 clap = "4.5.4"
