@@ -11,28 +11,28 @@ struct Args {
     /// Width and heigt of vector squares in pixels
     #[arg(long = "squaresize", default_value_t = 40)]
     square_size: u32,
+    /// If given, overlap vector squares by 1px
+    #[arg(long)]
+    overlap: bool,
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
     let Args {
         image_filepath,
         square_size,
+        overlap,
     } = Args::parse();
+    let overlap = if overlap { 1 } else { 0 };
+    let rect_size = to_px(square_size + overlap);
 
     let output_filepath = image_filepath.with_extension("svg");
 
     let image_file = image::open(image_filepath)?;
     let data = image_file.to_rgba8();
 
-    let mut document = Document::new().set(
-        "viewport",
-        (
-            0,
-            0,
-            data.width() * square_size,
-            data.height() * square_size,
-        ),
-    );
+    let mut document = Document::new()
+        .set("width", to_px(data.width() * square_size))
+        .set("height", to_px(data.height() * square_size));
     let rectangles = data
         .enumerate_pixels()
         .filter(|(_, _, c)| c.0[3] > 0)
@@ -40,9 +40,9 @@ fn main() -> Result<(), Box<dyn Error>> {
             Rectangle::new()
                 .set("x", to_px(x * square_size))
                 .set("y", to_px(y * square_size))
-                .set("width", to_px(square_size))
-                .set("height", to_px(square_size))
-                .set("fill", to_rgb_hex(&c.0))
+                .set("width", rect_size.clone())
+                .set("height", rect_size.clone())
+                .set("fill", to_fill(&c.0))
                 .into()
         });
     document.get_children_mut().extend(rectangles);
@@ -56,6 +56,6 @@ fn to_px(length: u32) -> String {
 }
 
 #[inline]
-fn to_rgb_hex(rgb: &[u8]) -> String {
-    format!("#{:x}{:x}{:x}", rgb[0], rgb[1], rgb[2])
+fn to_fill(rgb: &[u8]) -> String {
+    format!("rgb({},{},{})", rgb[0], rgb[1], rgb[2])
 }
