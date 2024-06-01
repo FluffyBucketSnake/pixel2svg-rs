@@ -1,6 +1,6 @@
 [package]
 name = "pixel2svg"
-authors = ["FluffyBucketSnake"]
+authors = ["FluffyBucketSnake <fluffybucketsnake@outlook.com>"]
 version = "1.0.2"
 edition = "2021"
 license = "GPL-3.0"
