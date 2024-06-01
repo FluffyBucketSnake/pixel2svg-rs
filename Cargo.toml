@@ -1,0 +1,14 @@
+[package]
+name = "pixel2svg-riir"
+authors = ["FluffyBucketSnake"]
+version = "0.1.0"
+edition = "2021"
+description = "Based on the original pixel2svg, but rewritten in Rust. Converts pixel art to SVG - pixel by pixel."
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+clap = "4.5.4"
+clap_derive = "4.5.4"
+image = "0.25.1"
+svg = "0.17.0"
