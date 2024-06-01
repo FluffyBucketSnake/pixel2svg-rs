@@ -3,6 +3,7 @@ name = "pixel2svg"
 authors = ["FluffyBucketSnake"]
 version = "1.0.0"
 edition = "2021"
+license = "GPL-3.0"
 description = "Based on the original pixel2svg, but rewritten in Rust. Converts pixel art to SVG - pixel by pixel."
 
 [profile.release]
