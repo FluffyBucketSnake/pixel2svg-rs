@@ -7,6 +7,7 @@ license = "GPL-3.0"
 repository = "https://github.com/FluffyBucketSnake/pixel2svg-rs/"
 homepage = "https://github.com/FluffyBucketSnake/pixel2svg-rs/"
 keywords = ["cli", "graphics", "svg", "pixel", "pixelart"]
+categories = ["command-line-utilities", "graphics", "multimedia", "multimedia::images"]
 description = "Based on the original pixel2svg, but rewritten in Rust. Converts pixel art to SVG - pixel by pixel."
 
 [profile.release]
