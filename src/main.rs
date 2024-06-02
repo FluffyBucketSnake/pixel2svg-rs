@@ -33,7 +33,7 @@ struct Args {
     /// If '-' is given, outputs results to standart output.
     #[arg(short = 'O', long = "output")]
     output_filepath: Option<PathBuf>,
-    /// If given, determines the fill color format.
+    /// Sets the outputted color format.
     #[arg(value_enum, short = 'C', long, default_value_t = ColorFormat::RgbFunction)]
     color_format: ColorFormat,
 }
