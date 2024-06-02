@@ -14,23 +14,23 @@ use svg::{node::element::Rectangle, Document, Node};
 #[command(version, about, long_about = None)]
 struct Args {
     image_filepath: PathBuf,
-    /// Width and height of vector squares in pixels
+    /// Width and height of vector squares in pixels.
     #[arg(long = "squaresize", default_value_t = 40)]
     square_size: u32,
-    /// If given, overlaps vector squares by 1px
+    /// If given, overlaps vector squares by 1px.
     #[arg(long)]
     overlap: bool,
-    /// If given, strips all additional namespaces
+    /// If given, strips all additional namespaces.
     #[arg(long)]
     strip_namespaces: bool,
-    /// If given, strips unrecommended attributes
+    /// If given, strips unrecommended attributes.
     #[arg(long)]
     strip_extra_attrs: bool,
-    /// If given, translucent pixels will be included
+    /// If given, translucent pixels will be included.
     #[arg(long)]
     allow_opacity: bool,
     /// By default, the output filepath will be the input filepath replaced with a "svg" extension.
-    /// If '-' is given, outputs results to standart output
+    /// If '-' is given, outputs results to standart output.
     #[arg(short = 'O', long = "output")]
     output_filepath: Option<PathBuf>,
     /// If given, determines the fill color format.
