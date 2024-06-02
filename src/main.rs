@@ -1,4 +1,10 @@
-use std::{error::Error, path::PathBuf};
+use std::{
+    error::Error,
+    ffi::OsStr,
+    fs::{File, OpenOptions},
+    io::{stdout, Stdout, Write},
+    path::PathBuf,
+};
 
 use clap::Parser;
 use clap_derive::Parser;
@@ -23,9 +29,43 @@ struct Args {
     /// If given, translucent pixels will be included
     #[arg(long)]
     allow_opacity: bool,
-    /// By default, the output filepath will be the input filepath replaced with a "svg" extension
+    /// By default, the output filepath will be the input filepath replaced with a "svg" extension.
+    /// If '-' is given, outputs results to standart output
     #[arg(short = 'O', long = "output")]
     output_filepath: Option<PathBuf>,
+}
+
+enum OutputFile {
+    File(File),
+    Stdout(Stdout),
+}
+
+impl Write for OutputFile {
+    fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
+        match self {
+            OutputFile::File(f) => f.write(buf),
+            OutputFile::Stdout(stdout) => stdout.write(buf),
+        }
+    }
+
+    fn flush(&mut self) -> std::io::Result<()> {
+        match self {
+            OutputFile::File(f) => f.flush(),
+            OutputFile::Stdout(stdout) => stdout.flush(),
+        }
+    }
+}
+
+impl OutputFile {
+    fn new(path: PathBuf) -> std::io::Result<Self> {
+        if path.as_os_str() == OsStr::new("-") {
+            Ok(OutputFile::Stdout(stdout()))
+        } else {
+            Ok(OutputFile::File(
+                OpenOptions::new().create_new(true).open(path)?,
+            ))
+        }
+    }
 }
 
 fn main() -> Result<(), Box<dyn Error>> {
@@ -78,7 +118,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         }
         document.append(rectangle);
     }
-    svg::save(output_filepath, &document)?;
+    svg::write(OutputFile::new(output_filepath)?, &document)?;
     Ok(())
 }
 
