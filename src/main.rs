@@ -7,7 +7,7 @@ use std::{
 };
 
 use clap::Parser;
-use clap_derive::Parser;
+use clap_derive::{Parser, ValueEnum};
 use svg::{node::element::Rectangle, Document, Node};
 
 #[derive(Parser)]
@@ -33,6 +33,27 @@ struct Args {
     /// If '-' is given, outputs results to standart output
     #[arg(short = 'O', long = "output")]
     output_filepath: Option<PathBuf>,
+    /// If given, determines the fill color format.
+    #[arg(value_enum, short = 'C', long, default_value_t = ColorFormat::RgbFunction)]
+    color_format: ColorFormat,
+}
+
+#[derive(Clone, Copy, ValueEnum)]
+enum ColorFormat {
+    /// Colors are outputted as `rgb()` CSS functions.
+    RgbFunction,
+    /// Colors are outputted as RRGGBB hex codes.
+    RgbHex,
+}
+
+impl ColorFormat {
+    #[inline]
+    fn fmt(&self, color: &[u8]) -> String {
+        match self {
+            ColorFormat::RgbFunction => format!("rgb({},{},{})", color[0], color[1], color[2]),
+            ColorFormat::RgbHex => format!("#{:02x}{:02x}{:02x}", color[0], color[1], color[2]),
+        }
+    }
 }
 
 enum OutputFile {
@@ -77,6 +98,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         strip_extra_attrs,
         allow_opacity,
         output_filepath,
+        color_format,
     } = Args::parse();
     let overlap = if overlap { 1 } else { 0 };
     let rect_size = to_px(square_size + overlap);
@@ -112,7 +134,7 @@ fn main() -> Result<(), Box<dyn Error>> {
             .set("y", to_px(y * square_size))
             .set("width", rect_size.clone())
             .set("height", rect_size.clone())
-            .set("fill", to_fill(&c.0));
+            .set("fill", color_format.fmt(&c.0));
         if c[3] < 0xFF {
             rectangle.assign("opacity", (c[3] as f32) / 255.0);
         }
@@ -125,9 +147,4 @@ fn main() -> Result<(), Box<dyn Error>> {
 #[inline]
 fn to_px(length: u32) -> String {
     format!("{}px", length)
-}
-
-#[inline]
-fn to_fill(rgb: &[u8]) -> String {
-    format!("rgb({},{},{})", rgb[0], rgb[1], rgb[2])
 }
