@@ -26,6 +26,8 @@ jobs:
         with:
           toolchain: stable
           components: clippy, rustfmt
+
+      - uses: swatinem/rust-cache@v2
             
       - name: Check code formatting
         run: cargo fmt --all -- --check -l --verbose
@@ -45,6 +47,8 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: stable
+
+      - uses: Swatinem/rust-cache@v2
             
       - name: Run all tests
         run: cargo test --verbose -- --test-threads 1
@@ -61,6 +65,8 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: stable
+
+      - uses: swatinem/rust-cache@v2
             
       - name: Build binary
         run: cargo build --verbose

@@ -20,6 +20,8 @@ jobs:
         with:
           toolchain: stable
 
+      - uses: swatinem/rust-cache@v2
+
       - name: Publish package
         run: cargo publish
         env:
