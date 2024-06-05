@@ -125,7 +125,7 @@ fn main() -> Result<(), Box<dyn Error>> {
         if allow_opacity {
             c[3] > 0
         } else {
-            c[3] >= 0xFF
+            c[3] == 0xFF
         }
     });
 
