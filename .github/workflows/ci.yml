@@ -1,4 +1,4 @@
-name: CI Build & Test
+name: Continuous Integration
 
 on:
   push:
@@ -14,23 +14,45 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  cargo_fmt:
+  lint:
+    name: Linting
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
         uses: actions/checkout@v4
           
-      - name: Install Stable Toolchain
+      - name: Install stable toolchain
         uses: dtolnay/rust-toolchain@stable
         with:
           toolchain: stable
-          components: rustfmt
+          components: clippy, rustfmt
             
-      - name: Code formatting
+      - name: Check code formatting
         run: cargo fmt --all -- --check -l --verbose
-        
+
+      - name: Run Clippy
+        run: cargo clippy
+
+  build:        
+      - name: Checkout sources
+        uses: actions/checkout@v4
+          
+      - name: Install stable toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+            
       - name: Build binary
         run: cargo build --verbose
 
+  test:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+          
+      - name: Install stable toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+            
       - name: Run all tests
         run: cargo test --verbose -- --test-threads 1
