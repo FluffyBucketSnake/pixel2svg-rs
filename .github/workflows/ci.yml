@@ -33,19 +33,11 @@ jobs:
       - name: Run Clippy
         run: cargo clippy
 
-  build:        
-      - name: Checkout sources
-        uses: actions/checkout@v4
-          
-      - name: Install stable toolchain
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          toolchain: stable
-            
-      - name: Build binary
-        run: cargo build --verbose
-
   test:
+    name: Testing
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
       - name: Checkout sources
         uses: actions/checkout@v4
           
@@ -56,3 +48,19 @@ jobs:
             
       - name: Run all tests
         run: cargo test --verbose -- --test-threads 1
+
+  build:        
+    name: Building
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+          
+      - name: Install stable toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+            
+      - name: Build binary
+        run: cargo build --verbose
