@@ -84,7 +84,11 @@ impl OutputFile {
             Ok(OutputFile::Stdout(stdout()))
         } else {
             Ok(OutputFile::File(
-                OpenOptions::new().create(true).write(true).open(path)?,
+                OpenOptions::new()
+                    .create(true)
+                    .truncate(true)
+                    .write(true)
+                    .open(path)?,
             ))
         }
     }
