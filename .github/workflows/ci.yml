@@ -51,7 +51,7 @@ jobs:
 
   build:        
     name: Building
-    needs: build
+    needs: test
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
