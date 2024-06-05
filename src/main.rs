@@ -56,6 +56,7 @@ impl ColorFormat {
     }
 }
 
+#[derive(Debug)]
 enum OutputFile {
     File(File),
     Stdout(Stdout),
@@ -83,7 +84,7 @@ impl OutputFile {
             Ok(OutputFile::Stdout(stdout()))
         } else {
             Ok(OutputFile::File(
-                OpenOptions::new().create_new(true).open(path)?,
+                OpenOptions::new().create(true).write(true).open(path)?,
             ))
         }
     }
