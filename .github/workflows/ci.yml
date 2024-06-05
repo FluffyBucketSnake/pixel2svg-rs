@@ -1,0 +1,36 @@
+name: CI Build & Test
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+
+env:
+  CARGO_TERM_COLOR: always
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.sha }}
+  cancel-in-progress: true
+
+jobs:
+  cargo_fmt:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v4
+          
+      - name: Install Stable Toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          toolchain: stable
+          components: rustfmt
+            
+      - name: Code formatting
+        run: cargo fmt --all -- --check -l --verbose
+        
+      - name: Build binary
+        run: cargo build --verbose
+
+      - name: Run all tests
+        run: cargo test --verbose -- --test-threads 1
