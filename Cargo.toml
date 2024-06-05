@@ -22,3 +22,8 @@ clap = "4.5.4"
 clap_derive = "4.5.4"
 image = "0.25.1"
 svg = "0.17.0"
+
+[dev-dependencies]
+assert_cmd = "2.0.14"
+pretty_assertions = "1.4.0"
+tempfile = "3.10.1"
